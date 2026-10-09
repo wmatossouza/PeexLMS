@@ -27,7 +27,8 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=db,1433;Database=PeexDb;User Id=sa;Password=${MSSQL_SA_PASSWORD:-Placeholder_ChangeMe123!};TrustServerCertificate=True;"
       Cors__AllowedOrigins__0: "http://localhost:5173"
-      Jwt__Key: ${JWT_KEY:?defina JWT_KEY no arquivo .env}
+      Seed__Demo: "true"
+      Jwt__Key: ${JWT_KEY:-}
       Jwt__Issuer: "PeexLearning"
       Jwt__Audience: "PeexLearningClient"
       Jwt__AccessTokenMinutos: "15"

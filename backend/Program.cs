@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,10 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Não anuncia o servidor nos cabeçalhos de resposta.
 builder.WebHost.ConfigureKestrel(opcoes => opcoes.AddServerHeader = false);
 
-// Segredos nunca ficam no repositório: chegam por variável de ambiente (ver README).
+// Segredos nunca ficam no repositório. Fora de Development, Jwt:Key é obrigatória (ver README).
+// Em Development, se não vier configurada, gera-se uma chave aleatória a cada subida
+// (as sessões abertas expiram ao reiniciar o backend).
 var chaveJwt = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrWhiteSpace(chaveJwt) || chaveJwt.Length < 32)
-    throw new InvalidOperationException("Jwt:Key ausente ou curta (mínimo 32 caracteres). Defina Jwt__Key / JWT_KEY (ver README).");
+{
+    if (!builder.Environment.IsDevelopment())
+        throw new InvalidOperationException("Jwt:Key ausente ou curta (mínimo 32 caracteres). Defina Jwt__Key (ver README).");
+
+    builder.Configuration["Jwt:Key"] = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+}
 if (string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("DefaultConnection")))
     throw new InvalidOperationException("ConnectionStrings:DefaultConnection ausente. Defina ConnectionStrings__DefaultConnection (ver README).");
 
@@ -147,6 +155,10 @@ using (var scope = app.Services.CreateScope())
         if (!await roleManager.RoleExistsAsync(papel))
             await roleManager.CreateAsync(new IdentityRole<int>(papel));
     }
+
+    // Dados de demonstração: só em Development e só com Seed:Demo=true (ligado no docker-compose).
+    if (app.Environment.IsDevelopment() && app.Configuration.GetValue<bool>("Seed:Demo"))
+        await DbSeeder.SeedDemoAsync(scope.ServiceProvider);
 }
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
