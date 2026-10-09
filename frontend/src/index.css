@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --color-bg: #ffffff;
+  --color-surface: #f4f5f7;
+  --color-border: #e2e4e9;
+  --color-text: #1a1d23;
+  --color-text-muted: #5b6270;
+
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-primary-ink: #4f46e5;
+  --color-primary-soft: #eef2ff;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fee2e2;
+
+  --color-badge-iniciante-bg: #dcfce7;
+  --color-badge-iniciante-text: #166534;
+  --color-badge-intermediario-bg: #fef3c7;
+  --color-badge-intermediario-text: #92400e;
+  --color-badge-avancado-bg: #fee2e2;
+  --color-badge-avancado-text: #991b1b;
+
+  --color-capa-1-de: #6366f1;
+  --color-capa-1-para: #8b5cf6;
+  --color-capa-2-de: #0ea5e9;
+  --color-capa-2-para: #6366f1;
+  --color-capa-3-de: #10b981;
+  --color-capa-3-para: #0ea5e9;
+  --color-capa-4-de: #f59e0b;
+  --color-capa-4-para: #ef4444;
+  --color-capa-5-de: #ec4899;
+  --color-capa-5-para: #8b5cf6;
+  --color-capa-6-de: #14b8a6;
+  --color-capa-6-para: #22c55e;
+
+  --animate-toast-in: toast-in 0.15s ease;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tema escuro suavizado: grafite azulado (não preto), cards mais claros que o fundo
+   (elevação), texto off-white e índigo mais claro nos textos/links. Ativado por
+   data-tema="escuro" em <html> (ver src/tema.ts); "Sistema" resolve pelo SO. */
+:root[data-tema='escuro'] {
+  color-scheme: dark;
+
+  --color-bg: #1b2230;
+  --color-surface: #151b27;
+  --color-border: #2a3344;
+  --color-text: #e4e8ef;
+  --color-text-muted: #9aa5b8;
+
+  --color-primary: #5b5fe0;
+  --color-primary-hover: #6e72ea;
+  --color-primary-ink: #a5b4fc;
+  --color-primary-soft: #262b52;
+  --color-danger: #e5484d;
+  --color-danger-soft: #3a1d22;
+
+  --color-badge-iniciante-bg: #173a2a;
+  --color-badge-iniciante-text: #9fe0bd;
+  --color-badge-intermediario-bg: #3d3016;
+  --color-badge-intermediario-text: #f0d48a;
+  --color-badge-avancado-bg: #442024;
+  --color-badge-avancado-text: #f5b5b5;
+}
+
+:root {
+  color-scheme: light;
+}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  a {
+    color: var(--color-primary-ink);
+    text-decoration: none;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  input:not([type='radio']):not([type='checkbox']),
+  select {
+    @apply w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-text transition-colors duration-150 placeholder:text-text-muted hover:border-text-muted disabled:opacity-60;
+  }
+
+  input:not([type='radio']):not([type='checkbox']):focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-primary;
+  }
+
+  input[type='radio'],
+  input[type='checkbox'] {
+    @apply h-4 w-4 accent-primary;
+  }
+
+  h1 {
+    @apply my-2 text-3xl font-bold tracking-tight text-text;
+  }
+
+  h2 {
+    @apply mb-3 mt-6 text-xl font-semibold text-text;
+  }
+}
+

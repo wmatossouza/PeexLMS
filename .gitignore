@@ -1,0 +1,29 @@
+# Backend (.NET)
+backend/bin/
+backend/obj/
+
+# Frontend (Node)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+
+# Env files
+.env
+!frontend/.env
+*.local
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Docker
+*.log
+
+# Material interno (briefing do desafio e planilhas da empresa) - nao publicar
+*.pptx
+*.xlsx
+
+# Configuracao local de ferramentas de IA / editor
+.claude/

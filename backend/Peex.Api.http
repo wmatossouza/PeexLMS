@@ -1,0 +1,22 @@
+@Peex.Api_HostAddress = http://localhost:5000
+
+GET {{Peex.Api_HostAddress}}/health
+Accept: application/json
+
+###
+
+GET {{Peex.Api_HostAddress}}/api/trilhas
+Accept: application/json
+
+###
+
+POST {{Peex.Api_HostAddress}}/api/auth/registrar
+Content-Type: application/json
+
+{
+  "nome": "Aluno Teste",
+  "email": "aluno@teste.com",
+  "senha": "SenhaForte123!"
+}
+
+###
